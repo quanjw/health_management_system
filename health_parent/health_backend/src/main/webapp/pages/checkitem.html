@@ -232,15 +232,37 @@
                 },
                 //添加
                 handleAdd () {
+                    this.$refs['dataAddForm'].validate((valid)=>{
+                        if (valid){
+                            axios.post("/checkitem/add.do",this.formData).then((response)=>{
+                                this.dialogFormVisible = false
+                                if (response.data.flag){
+                                    this.findPage()
+                                    this.$message({
+                                        message:response.data.message,
+                                        type: 'success'
+                                    })
+                                }else {
+                                    this.$message.error(response.data.message)
+                                }
+                            })
+                        }else {
+                            this.$message.error("数据校验失败，请检查")
+                            return false;
+                        }
+                    })
                 },
                 //分页查询
                 findPage() {
                 },
                 // 重置表单
                 resetForm() {
+                    this.formData = {}
                 },
                 // 弹出添加窗口
                 handleCreate() {
+                    this.dialogFormVisible = true
+                    this.resetForm()
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
