@@ -20,7 +20,7 @@
     </delete>
 
     <select id="findCountCheckItemById" parameterType="Integer" resultType="Long">
-        select count(*) from t_checkgroup_checkitem checkitem_id = #{id}
+        select count(*) from t_checkgroup_checkitem where checkitem_id = #{id}
     </select>
 
     <update id="editById" parameterType="com.quanjiawei.pojo.CheckItem" >
@@ -53,5 +53,9 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="findById" parameterType="Integer" resultType="com.quanjiawei.pojo.CheckItem">
+        select * from t_checkitem WHERE id = #{id}
+    </select>
 
 </mapper>

@@ -38,7 +38,7 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     public void deleteById(Integer id) {
         if(checkItemDao.findCountCheckItemById(id) > 0){
-            new RuntimeException();
+            throw new RuntimeException("当前检查项被引用，无法删除");
         }else {
             checkItemDao.deleteById(id);
         }
@@ -47,5 +47,9 @@ public class CheckItemServiceImpl implements CheckItemService {
 
     public void editById(CheckItem checkItem) {
         checkItemDao.editById(checkItem);
+    }
+
+    public CheckItem findById(Integer id) {
+        return  checkItemDao.findById(id);
     }
 }

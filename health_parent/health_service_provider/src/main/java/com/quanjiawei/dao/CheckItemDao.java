@@ -1,8 +1,6 @@
 package com.quanjiawei.dao;
 
 import com.github.pagehelper.Page;
-import com.quanjiawei.entity.PageResult;
-import com.quanjiawei.entity.QueryPageBean;
 import com.quanjiawei.pojo.CheckItem;
 
 public interface CheckItemDao {
@@ -15,4 +13,6 @@ public interface CheckItemDao {
     public long findCountCheckItemById(Integer id);
 
     public void editById(CheckItem checkItem);
+
+    public CheckItem findById(Integer id);
 }

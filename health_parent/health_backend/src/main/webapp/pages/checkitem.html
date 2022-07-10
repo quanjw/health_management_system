@@ -27,7 +27,7 @@
                 <div class="box">
                     <div class="filter-container">
                         <el-input placeholder="项目编码/项目名称" v-model="pagination.queryString" style="width: 200px;" class="filter-item"></el-input>
-                        <el-button @click="findPage()" class="dalfBut">查询</el-button>
+                        <el-button @click="_finPage()" class="dalfBut">查询</el-button>
                         <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
                     </div>
                     <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
@@ -235,7 +235,6 @@
                             axios.post("/checkitem/edit.do",this.formData).then((response)=>{
                                 this.dialogFormVisible4Edit = false
                                 if (response.data.flag){
-                                    this.findPage()
                                     this.$message({
                                         message:response.data.message,
                                         type: 'success'
@@ -243,6 +242,9 @@
                                 }else {
                                     this.$message.error(response.data.message)
                                 }
+                            }).finally(()=>{
+                                this.findPage();
+                                this.dialogFormVisible4Edit = false;
                             })
                         }else {
                             this.$message.error("数据校验失败，请检查")
@@ -257,7 +259,6 @@
                             axios.post("/checkitem/add.do",this.formData).then((response)=>{
                                 this.dialogFormVisible = false
                                 if (response.data.flag){
-                                    this.findPage()
                                     this.$message({
                                         message:response.data.message,
                                         type: 'success'
@@ -265,12 +266,19 @@
                                 }else {
                                     this.$message.error(response.data.message)
                                 }
+                            }).finally(()=>{
+                                this.findPage();
+                                this.dialogFormVisible = false;
                             })
                         }else {
                             this.$message.error("数据校验失败，请检查")
                             return false;
                         }
                     })
+                },
+                _finPage(){
+                    this.pagination.currentPage = 1;
+                    this.findPage();
                 },
                 //分页查询
                 findPage() {
@@ -296,7 +304,11 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
-                    this.formData = row;
+                    //this.formData = row;
+                    var id = row.id;
+                    axios.get("/checkitem/findById.do?id="+id).then((response)=>{
+                        this.formData = response.data.data;
+                    });
                     this.dialogFormVisible4Edit = true
                 },
                 //切换页码
