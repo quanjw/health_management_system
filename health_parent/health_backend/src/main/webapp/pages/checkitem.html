@@ -225,6 +225,7 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
+                this.findPage()
             },
             methods: {
                 //编辑
@@ -254,6 +255,16 @@
                 },
                 //分页查询
                 findPage() {
+                    var params = {
+                        currentPage: this.pagination.currentPage,
+                        pageSize: this.pagination.pageSize,
+                        queryString: this.pagination.queryString,
+                    }
+                    axios.post("/checkitem/findPage.do",params).then((response)=>{
+                        this.pagination.total = response.data.total;
+                        this.dataList = response.data.rows;
+                        console.log(this.dataList)
+                    });
                 },
                 // 重置表单
                 resetForm() {
@@ -269,6 +280,8 @@
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {
