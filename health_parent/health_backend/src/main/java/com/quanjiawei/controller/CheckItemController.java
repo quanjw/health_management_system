@@ -33,4 +33,26 @@ public class CheckItemController {
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
         return checkItemService.findPage(queryPageBean);
     }
+
+    @RequestMapping("/delete")
+    public Result add(Integer id){
+        try {
+            checkItemService.deleteById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+        return  new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
+    @RequestMapping("/edit")
+    public Result edit(@RequestBody CheckItem checkItem){
+        try {
+            checkItemService.editById(checkItem);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.EDIT_CHECKITEM_FAIL);
+        }
+        return  new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
 }

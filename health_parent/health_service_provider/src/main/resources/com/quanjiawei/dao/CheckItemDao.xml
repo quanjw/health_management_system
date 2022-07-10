@@ -14,4 +14,44 @@
             where code = #{value} or name = #{value}
         </if>
     </select>
+
+    <delete id="deleteById" parameterType="Integer">
+        delete from t_checkitem where id = #{id}
+    </delete>
+
+    <select id="findCountCheckItemById" parameterType="Integer" resultType="Long">
+        select count(*) from t_checkgroup_checkitem checkitem_id = #{id}
+    </select>
+
+    <update id="editById" parameterType="com.quanjiawei.pojo.CheckItem" >
+        update t_checkitem
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

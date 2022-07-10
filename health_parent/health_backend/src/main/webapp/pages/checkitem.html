@@ -230,6 +230,25 @@
             methods: {
                 //编辑
                 handleEdit() {
+                    this.$refs['dataEditForm'].validate((valid)=>{
+                        if (valid){
+                            axios.post("/checkitem/edit.do",this.formData).then((response)=>{
+                                this.dialogFormVisible4Edit = false
+                                if (response.data.flag){
+                                    this.findPage()
+                                    this.$message({
+                                        message:response.data.message,
+                                        type: 'success'
+                                    })
+                                }else {
+                                    this.$message.error(response.data.message)
+                                }
+                            })
+                        }else {
+                            this.$message.error("数据校验失败，请检查")
+                            return false;
+                        }
+                    })
                 },
                 //添加
                 handleAdd () {
@@ -277,6 +296,8 @@
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
+                    this.formData = row;
+                    this.dialogFormVisible4Edit = true
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
@@ -285,6 +306,32 @@
                 },
                 // 删除
                 handleDelete(row) {
+
+                    this.$confirm('请确认是否删除?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        var id = row.id;
+                        axios.get("/checkitem/delete.do?id="+id).then((response)=>{
+                            if (response.data.flag){
+                                this.findPage()
+                                this.$message({
+                                    message:response.data.message,
+                                    type: 'success'
+                                })
+                            }else {
+                                this.$message.error(response.data.message)
+                            }
+                        })
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    });
+
+
                 }
             }
         })

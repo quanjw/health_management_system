@@ -10,13 +10,12 @@ import com.quanjiawei.pojo.CheckItem;
 import com.quanjiawei.service.CheckItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import sun.tools.jconsole.JConsole;
 
 import java.util.List;
 
 @Service(interfaceClass = CheckItemService.class)
 @Transactional
-public class CheckItemImpl implements CheckItemService {
+public class CheckItemServiceImpl implements CheckItemService {
 
     @Autowired
     private CheckItemDao checkItemDao;
@@ -35,5 +34,18 @@ public class CheckItemImpl implements CheckItemService {
         List<CheckItem> list = page.getResult();
         return new PageResult( total, list);
 
+    }
+
+    public void deleteById(Integer id) {
+        if(checkItemDao.findCountCheckItemById(id) > 0){
+            new RuntimeException();
+        }else {
+            checkItemDao.deleteById(id);
+        }
+
+    }
+
+    public void editById(CheckItem checkItem) {
+        checkItemDao.editById(checkItem);
     }
 }

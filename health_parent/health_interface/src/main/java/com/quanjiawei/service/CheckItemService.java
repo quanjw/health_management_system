@@ -9,4 +9,8 @@ public interface CheckItemService {
     public void add(CheckItem checkItem);
 
     public PageResult findPage(QueryPageBean queryPageBean);
+
+    public void deleteById(Integer id);
+
+    public void editById(CheckItem checkItem);
 }
