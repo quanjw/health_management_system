@@ -7,22 +7,22 @@ import java.util.List;
  * 检查组
  */
 public class CheckGroup implements Serializable {
-    private Integer id;//主键
-    private String code;//编码
-    private String name;//名称
-    private String helpCode;//助记
-    private String sex;//适用性别
-    private String remark;//介绍
-    private String attention;//注意事项
-    private List<CheckItem> checkItems;//一个检查组合包含多个检查项
+    private static final long serialVersionUID = -71044033958501520L;
 
-    public List<CheckItem> getCheckItems() {
-        return checkItems;
-    }
+    private Integer id;
 
-    public void setCheckItems(List<CheckItem> checkItems) {
-        this.checkItems = checkItems;
-    }
+    private String code;
+
+    private String name;
+
+    private String helpcode;
+
+    private String sex;
+
+    private String remark;
+
+    private String attention;
+
 
     public Integer getId() {
         return id;
@@ -48,12 +48,12 @@ public class CheckGroup implements Serializable {
         this.name = name;
     }
 
-    public String getHelpCode() {
-        return helpCode;
+    public String getHelpcode() {
+        return helpcode;
     }
 
-    public void setHelpCode(String helpCode) {
-        this.helpCode = helpCode;
+    public void setHelpcode(String helpcode) {
+        this.helpcode = helpcode;
     }
 
     public String getSex() {
