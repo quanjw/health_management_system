@@ -30,9 +30,28 @@ public class CheckItemController {
     }
 
     @RequestMapping("/findPage")
-    public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
-        return checkItemService.findPage(queryPageBean);
+    public Result findPage(@RequestBody QueryPageBean queryPageBean){
+        try {
+            PageResult pageResult = checkItemService.findPage(queryPageBean);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
     }
+
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        try {
+            PageResult pageResult = checkItemService.findAll();
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
+
+
 
     @RequestMapping("/delete")
     public Result add(Integer id){
@@ -49,7 +68,7 @@ public class CheckItemController {
 
     @RequestMapping("/findById")
     public Result findById(Integer id){
-        Object checkItem;
+        CheckItem checkItem;
         try {
             checkItem = checkItemService.findById(id);
         }catch (Exception e){
@@ -57,6 +76,17 @@ public class CheckItemController {
             return  new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
         }
         return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
+    }
+
+    @RequestMapping("/findCheckItemIdByCheckGroupId")
+    public Result findCheckItemIdByCheckGroupId(Integer checkGroupId){
+        try {
+            Integer[] ids = checkItemService.findCheckItemIdByCheckGroupId(checkGroupId);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,ids);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
     }
 
     @RequestMapping("/edit")

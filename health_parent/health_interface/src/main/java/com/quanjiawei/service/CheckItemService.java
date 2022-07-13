@@ -15,4 +15,8 @@ public interface CheckItemService {
     public void editById(CheckItem checkItem);
 
     public CheckItem findById(Integer id);
+
+    public PageResult findAll();
+
+    public Integer[] findCheckItemIdByCheckGroupId(Integer checkGroupId);
 }

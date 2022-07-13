@@ -79,4 +79,17 @@ public class CheckGroup implements Serializable {
     public void setAttention(String attention) {
         this.attention = attention;
     }
+
+    @Override
+    public String toString() {
+        return "CheckGroup{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", helpcode='" + helpcode + '\'' +
+                ", sex='" + sex + '\'' +
+                ", remark='" + remark + '\'' +
+                ", attention='" + attention + '\'' +
+                '}';
+    }
 }

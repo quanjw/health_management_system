@@ -58,4 +58,14 @@
         select * from t_checkitem WHERE id = #{id}
     </select>
 
+    <select id="findAll"  resultType="com.quanjiawei.pojo.CheckItem">
+        select * from t_checkitem
+    </select>
+
+    <select id="findCheckItemIdByCheckGroupId"  resultType="Integer">
+        select checkitem_id from t_checkgroup_checkitem WHERE checkgroup_id = #{checkGroupId}
+    </select>
+
+
+
 </mapper>

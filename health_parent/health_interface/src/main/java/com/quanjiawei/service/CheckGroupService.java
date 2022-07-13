@@ -3,8 +3,6 @@ package com.quanjiawei.service;
 import com.quanjiawei.entity.PageResult;
 import com.quanjiawei.entity.QueryPageBean;
 import com.quanjiawei.pojo.CheckGroup;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 /**
  * (CheckGroup)表服务接口
@@ -25,8 +23,7 @@ public interface CheckGroupService {
     /**
      * 分页查询
      *
-     * @param checkGroup 筛选条件
-     * @param pageRequest      分页对象
+     * @param queryPageBean      分页对象
      * @return 查询结果
      */
     PageResult queryByPage(QueryPageBean queryPageBean);
@@ -35,9 +32,10 @@ public interface CheckGroupService {
      * 新增数据
      *
      * @param checkGroup 实例对象
+     * @param checkitemIds
      * @return 实例对象
      */
-    CheckGroup insert(CheckGroup checkGroup);
+    CheckGroup insert(CheckGroup checkGroup, Integer[] checkitemIds);
 
     /**
      * 修改数据
@@ -45,7 +43,7 @@ public interface CheckGroupService {
      * @param checkGroup 实例对象
      * @return 实例对象
      */
-    CheckGroup update(CheckGroup checkGroup);
+    CheckGroup update(CheckGroup checkGroup,Integer[] checkitemIds);
 
     /**
      * 通过主键删除数据

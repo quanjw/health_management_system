@@ -288,8 +288,8 @@
                         queryString: this.pagination.queryString,
                     }
                     axios.post("/checkitem/findPage.do",params).then((response)=>{
-                        this.pagination.total = response.data.total;
-                        this.dataList = response.data.rows;
+                        this.pagination.total = response.data.data.total;
+                        this.dataList = response.data.data.rows;
                         console.log(this.dataList)
                     });
                 },

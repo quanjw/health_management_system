@@ -1,8 +1,10 @@
 package com.quanjiawei.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.quanjiawei.constant.MessageConstant;
 import com.quanjiawei.entity.PageResult;
 import com.quanjiawei.entity.QueryPageBean;
+import com.quanjiawei.entity.Result;
 import com.quanjiawei.pojo.CheckGroup;
 import com.quanjiawei.service.CheckGroupService;
 import org.springframework.data.domain.Page;
@@ -34,11 +36,14 @@ public class CheckGroupController {
      * @return 查询结果
      */
     @RequestMapping("/queryByPage")
-    public PageResult queryByPage(@RequestBody QueryPageBean queryPageBean) {
-        CheckGroup checkGroup = new CheckGroup();
-        //checkGroup.setName(queryPageBean.getQueryString());
-        PageRequest pageRequest = PageRequest.of(queryPageBean.getCurrentPage(),queryPageBean.getPageSize());
-        return this.checkGroupService.queryByPage(queryPageBean);
+    public Result queryByPage(@RequestBody QueryPageBean queryPageBean) {
+        try {
+            PageResult pageResult = this.checkGroupService.queryByPage(queryPageBean);
+            return  new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,pageResult);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
     }
 
     /**
@@ -48,8 +53,17 @@ public class CheckGroupController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    public ResponseEntity<CheckGroup> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.checkGroupService.queryById(id));
+    public Result queryById(@PathVariable("id") Integer id) {
+
+        CheckGroup checkGroup;
+        try {
+            checkGroup = this.checkGroupService.queryById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
+        return  new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkGroup);
+
     }
 
     /**
@@ -59,8 +73,14 @@ public class CheckGroupController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<CheckGroup> add(CheckGroup checkGroup) {
-        return ResponseEntity.ok(this.checkGroupService.insert(checkGroup));
+    public Result add(@RequestBody CheckGroup checkGroup ,Integer[] checkitemIds) {
+        try {
+            CheckGroup insertCheckGroup = this.checkGroupService.insert(checkGroup, checkitemIds);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.ADD_CHECKGROUP_FAIL);
+        }
+        return  new Result(true, MessageConstant.ADD_CHECKGROUP_SUCCESS);
     }
 
     /**
@@ -70,8 +90,14 @@ public class CheckGroupController {
      * @return 编辑结果
      */
     @PutMapping
-    public ResponseEntity<CheckGroup> edit(CheckGroup checkGroup) {
-        return ResponseEntity.ok(this.checkGroupService.update(checkGroup));
+    public Result edit(@RequestBody CheckGroup checkGroup ,Integer[] checkitemIds) {
+        try {
+            this.checkGroupService.update(checkGroup,checkitemIds);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.EDIT_CHECKGROUP_FAIL);
+        }
+        return  new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
     }
 
     /**
@@ -81,8 +107,15 @@ public class CheckGroupController {
      * @return 删除是否成功
      */
     @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.checkGroupService.deleteById(id));
+    public Result deleteById(Integer id) {
+        System.out.println(id);
+        try {
+            checkGroupService.deleteById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.DELETE_CHECKGROUP_FAIL);
+        }
+        return  new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
     }
 
 }

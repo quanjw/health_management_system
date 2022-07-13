@@ -52,4 +52,16 @@ public class CheckItemServiceImpl implements CheckItemService {
     public CheckItem findById(Integer id) {
         return  checkItemDao.findById(id);
     }
+
+    public PageResult findAll() {
+        Page<CheckItem> page =  checkItemDao.findAll();
+        long total = page.getTotal();
+        List<CheckItem> list = page.getResult();
+        return new PageResult( total, list);
+    }
+
+    public Integer[] findCheckItemIdByCheckGroupId(Integer checkGroupId) {
+        Integer[] checkItemIds = checkItemDao.findCheckItemIdByCheckGroupId(checkGroupId);
+        return checkItemIds;
+    }
 }

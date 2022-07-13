@@ -16,7 +16,7 @@
     <select id="queryById" resultMap="CheckGroupMap">
         select
           id, code, name, helpCode, sex, remark, attention
-        from t_check_group
+        from t_checkgroup
         where id = #{id}
     </select>
 
@@ -27,25 +27,25 @@
         from t_checkgroup
         <where>
             <if test="checkGroup.id != null">
-                and id = #{checkGroup.id}
+                OR id = #{checkGroup.id}
             </if>
             <if test="checkGroup.code != null and checkGroup.code != ''">
-                and code = #{checkGroup.code}
+                OR code = #{checkGroup.code}
             </if>
             <if test="checkGroup.name != null and checkGroup.name != ''">
-                and name = #{checkGroup.name}
+                OR name = #{checkGroup.name}
             </if>
             <if test="checkGroup.helpcode != null and checkGroup.helpcode != ''">
-                and helpCode = #{checkGroup.helpcode}
+                OR helpCode = #{checkGroup.helpcode}
             </if>
             <if test="checkGroup.sex != null and checkGroup.sex != ''">
-                and sex = #{checkGroup.sex}
+                OR sex = #{checkGroup.sex}
             </if>
             <if test="checkGroup.remark != null and checkGroup.remark != ''">
-                and remark = #{checkGroup.remark}
+                OR remark = #{checkGroup.remark}
             </if>
             <if test="checkGroup.attention != null and checkGroup.attention != ''">
-                and attention = #{checkGroup.attention}
+                OR attention = #{checkGroup.attention}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -82,8 +82,23 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+       <!--获取字增ID 方法一 （oracle不支持true）
+       keyProperty="id" useGeneratedKeys="true"
+        -->
+       <!-- 获取字增ID 方法二
+       <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>-->
+
         insert into t_checkgroup(code, name, helpCode, sex, remark, attention)
         values (#{code}, #{name}, #{helpcode}, #{sex}, #{remark}, #{attention})
+    </insert>
+
+    <insert id="setCheckGroupIdAndCheckItemId" parameterType="map">
+        insert into t_checkgroup_checkitem(checkgroup_id, checkitem_id)
+        values (#{checkgroupId}, #{checkitemId})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
@@ -139,6 +154,12 @@
     <delete id="deleteById">
         delete from t_checkgroup where id = #{id}
     </delete>
+
+    <delete id="deleteAssoicationOfCheckItem">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+
+
 
 </mapper>
 
