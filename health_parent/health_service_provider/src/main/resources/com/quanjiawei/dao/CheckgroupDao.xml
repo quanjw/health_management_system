@@ -20,6 +20,13 @@
         where id = #{id}
     </select>
 
+    <!--查询单个-->
+    <select id="findAll" resultMap="CheckGroupMap">
+        select
+            id, code, name, helpCode, sex, remark, attention
+        from t_checkgroup
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CheckGroupMap">
         select
@@ -159,7 +166,9 @@
         delete from t_checkgroup_checkitem where checkgroup_id = #{id}
     </delete>
 
-
+    <select id="findCheckGroupIdBySetmealId" parameterType="Integer" resultType="Integer">
+        select checkgroup_id  from t_setmeal_checkgroup where setmeal_id = #{setmealId}
+    </select>
 
 </mapper>
 

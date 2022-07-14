@@ -107,4 +107,13 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         this.checkGroupDao.deleteAssoicationOfCheckItem(id);
         return this.checkGroupDao.deleteById(id) > 0;
     }
+
+    public List<CheckGroup> findAll() {
+        return this.checkGroupDao.findAll();
+    }
+
+    public Integer[] findCheckGroupIdBySetmealId(Integer setmealId) {
+        Integer[] checkItemIds = checkGroupDao.findCheckGroupIdBySetmealId(setmealId);
+        return checkItemIds;
+    }
 }

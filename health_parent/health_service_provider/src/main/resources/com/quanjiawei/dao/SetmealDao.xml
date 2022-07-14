@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.quanjiawei.dao.SetmealDao">
+
+    <resultMap type="com.quanjiawei.pojo.Setmeal" id="SetmealMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="helpCode" column="helpCode" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="attention" column="attention" jdbcType="VARCHAR"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SetmealMap">
+        select
+          id, name, code, helpCode, sex, age, price, remark, attention, img
+        from t_setmeal
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SetmealMap">
+        select
+          id, name, code, helpCode, sex, age, price, remark, attention, img
+        from t_setmeal
+        <where>
+            <if test="setmeal.id != null">
+                and id = #{setmeal.id}
+            </if>
+            <if test="setmeal.name != null and setmeal.name != ''">
+                and name = #{setmeal.name}
+            </if>
+            <if test="setmeal.code != null and setmeal.code != ''">
+                and code = #{setmeal.code}
+            </if>
+            <if test="setmeal.helpCode != null and setmeal.helpCode != ''">
+                and helpCode = #{setmeal.helpCode}
+            </if>
+            <if test="setmeal.sex != null and setmeal.sex != ''">
+                and sex = #{setmeal.imgsex}
+            </if>
+            <if test="setmeal.age != null and setmeal.age != ''">
+                and age = #{setmeal.age}
+            </if>
+            <if test="setmeal.price != null">
+                and price = #{setmeal.price}
+            </if>
+            <if test="setmeal.remark != null and setmeal.remark != ''">
+                and remark = #{setmeal.remark}
+            </if>
+            <if test="setmeal.attention != null and setmeal.attention != ''">
+                and attention = #{setmeal.attention}
+            </if>
+            <if test="setmeal.img != null and setmeal.img != ''">
+                and img = #{setmeal.img}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from t_setmeal
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="code != null and code != ''">
+                and code = #{code}
+            </if>
+            <if test="helpCode != null and helpCode != ''">
+                and helpCode = #{helpCode}
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="attention != null and attention != ''">
+                and attention = #{attention}
+            </if>
+            <if test="img != null and img != ''">
+                and img = #{img}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal(name, code, helpCode, sex, age, price, remark, attention, img)
+        values (#{name}, #{code}, #{helpCode}, #{sex}, #{age}, #{price}, #{remark}, #{attention}, #{img})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal(name, code, helpCode, sex, age, price, remark, attention, img)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.name}, #{entity.code}, #{entity.helpCode}, #{entity.sex}, #{entity.age}, #{entity.price}, #{entity.remark}, #{entity.attention}, #{entity.img})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal(name, code, helpCode, sex, age, price, remark, attention, img)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.code}, #{helpCode}, #{entity.sex}, #{entity.age}, #{entity.price}, #{entity.remark}, #{entity.attention}, #{entity.img})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        code = values(code),
+        helpCode = values(helpCode),
+        sex = values(sex),
+        age = values(age),
+        price = values(price),
+        remark = values(remark),
+        attention = values(attention),
+        img = values(img)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update t_setmeal
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="code != null and code != ''">
+                code = #{code},
+            </if>
+            <if test="helpCode != null and helpCode != ''">
+                helpCode = #{helpCode},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="attention != null and attention != ''">
+                attention = #{attention},
+            </if>
+            <if test="img != null and img != ''">
+                img = #{img},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from t_setmeal where id = #{id}
+    </delete>
+
+    <insert id="setSetmealAndCheckGroupId" parameterType="map">
+        insert into t_setmeal_checkgroup(setmeal_id, checkgroup_id)
+        values (#{setmealId}, #{checkGroupId})
+    </insert>
+
+
+    <delete id="deleteAssoicationOfCheckGroup">
+        delete from t_setmeal_checkgroup where setmeal_id = #{setmealId}
+    </delete>
+
+
+</mapper>
+

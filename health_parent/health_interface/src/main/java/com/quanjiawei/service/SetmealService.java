@@ -2,17 +2,17 @@ package com.quanjiawei.service;
 
 import com.quanjiawei.entity.PageResult;
 import com.quanjiawei.entity.QueryPageBean;
-import com.quanjiawei.pojo.CheckGroup;
+import com.quanjiawei.pojo.Setmeal;
 
 import java.util.List;
 
 /**
- * (CheckGroup)表服务接口
+ * (Setmeal)表服务接口
  *
  * @author makejava
  * @since 2022-07-11 14:05:51
  */
-public interface CheckGroupService {
+public interface SetmealService {
 
     /**
      * 通过ID查询单条数据
@@ -20,7 +20,7 @@ public interface CheckGroupService {
      * @param id 主键
      * @return 实例对象
      */
-    CheckGroup queryById(Integer id);
+    Setmeal queryById(Integer id);
 
     /**
      * 分页查询
@@ -33,19 +33,20 @@ public interface CheckGroupService {
     /**
      * 新增数据
      *
-     * @param checkGroup 实例对象
-     * @param checkitemIds
+     * @param setmeal 实例对象
+     * @param checkGroupIds
      * @return 实例对象
      */
-    CheckGroup insert(CheckGroup checkGroup, Integer[] checkitemIds);
+    Setmeal insert(Setmeal setmeal, Integer[] checkGroupIds);
 
     /**
      * 修改数据
      *
-     * @param checkGroup 实例对象
+     * @param setmeal 实例对象
+     * @param checkGroupIds 实例对象
      * @return 实例对象
      */
-    CheckGroup update(CheckGroup checkGroup,Integer[] checkitemIds);
+    Setmeal update(Setmeal setmeal,Integer[] checkGroupIds);
 
     /**
      * 通过主键删除数据
@@ -55,7 +56,6 @@ public interface CheckGroupService {
      */
     boolean deleteById(Integer id);
 
-    List<CheckGroup> findAll();
+    List<Setmeal> findAll();
 
-    Integer[] findCheckGroupIdBySetmealId(Integer setmealId);
 }

@@ -7,9 +7,6 @@ import com.quanjiawei.entity.QueryPageBean;
 import com.quanjiawei.entity.Result;
 import com.quanjiawei.pojo.CheckGroup;
 import com.quanjiawei.service.CheckGroupService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,6 +43,17 @@ public class CheckGroupController {
         }
     }
 
+    @RequestMapping("/findAll")
+    public Result findAll() {
+        try {
+            List<CheckGroup> list = this.checkGroupService.findAll();
+            return  new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,list);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
+        }
+    }
+
     /**
      * 通过主键查询单条数据
      *
@@ -63,7 +71,6 @@ public class CheckGroupController {
             return  new Result(false, MessageConstant.QUERY_CHECKGROUP_FAIL);
         }
         return  new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,checkGroup);
-
     }
 
     /**
@@ -116,6 +123,17 @@ public class CheckGroupController {
             return  new Result(false, MessageConstant.DELETE_CHECKGROUP_FAIL);
         }
         return  new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+    }
+
+    @RequestMapping("/findCheckGroupIdBySetmealId")
+    public Result findCheckItemIdByCheckGroupId(Integer setmealId){
+        try {
+            Integer[] ids = checkGroupService.findCheckGroupIdBySetmealId(setmealId);
+            return  new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,ids);
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
     }
 
 }
