@@ -1,6 +1,7 @@
 package com.quanjiawei.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.quanjiawei.constant.RedisConstant;
 import com.quanjiawei.dao.SetmealDao;
 import com.quanjiawei.entity.PageResult;
 import com.quanjiawei.entity.QueryPageBean;
@@ -10,6 +11,7 @@ import com.quanjiawei.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.JedisPool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,22 @@ import java.util.List;
 @Transactional
 public class SetmealServiceImpl implements SetmealService {
 
-    @Autowired
+
+
     private SetmealDao setmealDao;
+
+    private JedisPool jedisPool;
+
+
+    @Autowired
+    public void setSetmealDao(SetmealDao setmealDao) {
+        this.setmealDao = setmealDao;
+    }
+
+    @Autowired
+    public void setJedisPool(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
+    }
 
     public Setmeal queryById(Integer id) {
         return this.setmealDao.queryById(id);
@@ -47,7 +63,13 @@ public class SetmealServiceImpl implements SetmealService {
         this.setmealDao.insert(setmeal);
         Integer SetmealId = setmeal.getId();
         setSetmealAndCheckGroupId(checkGroupIds, SetmealId);
+
+        savePic2Redis(setmeal.getImg());
         return  setmeal;
+    }
+
+    private void savePic2Redis(String img) {
+        jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES, img);
     }
 
     public Setmeal update(Setmeal setmeal, Integer[] checkGroupIds) {
@@ -57,6 +79,8 @@ public class SetmealServiceImpl implements SetmealService {
         this.setmealDao.deleteAssoicationOfCheckGroup(setmealId);
 
         setSetmealAndCheckGroupId(checkGroupIds, setmealId);
+
+        savePic2Redis(setmeal.getImg());
         return this.queryById(setmealId);
     }
 

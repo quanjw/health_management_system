@@ -370,7 +370,7 @@
             methods: {
                 //文件上传成功后的钩子，response为服务端返回的值，file为当前上传的文件封装成的js对象
                 handleAvatarSuccess(response, file) {
-                    this.imageUrl = response.data;
+                    this.imageUrl = "http://health-file.quanjiawei.com/"+response.data;
                     this.$message({
                         type: response.flag?'success':'error',
                         message:response.message,
@@ -483,7 +483,7 @@
                     var id = row.id;
                     axios.get("/setmeal/"+id+".do").then((response)=>{
                         this.formData = response.data.data;
-                        this.imageUrl = this.formData.img;
+                        this.imageUrl = "http://health-file.quanjiawei.com/"+this.formData.img;
                     });
 
                     axios.get("/checkgroup/findAll.do").then((response)=>{
