@@ -8,20 +8,27 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import com.quanjiawei.constant.QiniuConstant;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 七牛云工具类
  */
-@PropertySource(value = {"classpath:application.properties"})
+@Component
 public class QiniuUtils {
-    @Value("qiniu.accessKey")
-    public  static String accessKey;
-    @Value("qiniu.secretKey")
-    public  static String secretKey;
-    @Value("qiniu.bucket")
-    public  static String bucket;
+
+    private static String accessKey;
+    private static String secretKey;
+    private static String bucket;
+
+    @Autowired
+    public void init( QiniuConstant qiniuConstant) {
+        QiniuUtils.accessKey = qiniuConstant.getAccessKey();
+        QiniuUtils.secretKey = qiniuConstant.getSecretKey();
+        QiniuUtils.bucket = qiniuConstant.getBucket();
+    }
+
 
     public static void upload2Qiniu(String filePath,String fileName){
         Configuration cfg = new Configuration();
@@ -57,7 +64,7 @@ public class QiniuUtils {
             DefaultPutRet defaultPutRet= JSON.parseObject(response.bodyString(), DefaultPutRet.class);
             System.out.println(defaultPutRet);
         }catch (QiniuException ignored){
-
+            System.out.println(ignored);
         }
     }
 

@@ -5,13 +5,16 @@ import com.quanjiawei.constant.MessageConstant;
 import com.quanjiawei.entity.PageResult;
 import com.quanjiawei.entity.QueryPageBean;
 import com.quanjiawei.entity.Result;
-import com.quanjiawei.pojo.CheckGroup;
 import com.quanjiawei.pojo.Setmeal;
-import com.quanjiawei.service.CheckGroupService;
 import com.quanjiawei.service.SetmealService;
+import com.quanjiawei.utils.QiniuUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * (CheckGroup)表控制层
@@ -127,6 +130,21 @@ public class SetmealController {
             return  new Result(false, MessageConstant.DELETE_SETMEAL_FAIL);
         }
         return  new Result(true, MessageConstant.DELETE_SETMEAL_SUCCESS);
+    }
+
+    @RequestMapping("/upload")
+    public Result upload(@RequestParam("imgFile") MultipartFile imgFile) {
+        String originalFilename = imgFile.getOriginalFilename();
+        int index = originalFilename.lastIndexOf(".");
+        String extension = originalFilename.substring(index - 1);
+        String fileName = UUID.randomUUID().toString()+extension;
+        try {
+            QiniuUtils.upload2Qiniu(imgFile.getBytes(),fileName);
+            return  new Result(true, MessageConstant.PIC_UPLOAD_SUCCESS,"http://health-file.quanjiawei.com/"+fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  new Result(false, MessageConstant.PIC_UPLOAD_FAIL);
+        }
     }
 }
 
