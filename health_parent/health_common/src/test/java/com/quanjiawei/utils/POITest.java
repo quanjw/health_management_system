@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class POITest {
 
-    @Test
+    //@Test
     public void  readXmlTest() throws IOException {
         String path = POITest.class.getClassLoader().getResource("API_19_DS2_zh_excel_v2_4162642.xls").getPath();
         System.out.println(path);
