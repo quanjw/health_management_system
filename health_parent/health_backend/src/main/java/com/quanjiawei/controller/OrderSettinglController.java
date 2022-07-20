@@ -69,11 +69,12 @@ public class OrderSettinglController {
     }
 
     @RequestMapping("/editOrderSettingByOrderDate")
-    public Result editOrderSettingByOrderDate(Integer number,String day){
-        System.out.println(number);
-        System.out.println(day);
+    public Result editOrderSettingByOrderDate(@RequestBody OrderSetting orderSetting){
+        System.out.println(orderSetting.getNumber());
+        System.out.println(orderSetting.getOrderDate());
 
         try {
+            orderSettinglService.editOrderSettingByOrderDate(orderSetting);
             return  new Result(true, MessageConstant.ORDERSETTING_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

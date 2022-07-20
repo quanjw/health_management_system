@@ -84,5 +84,6 @@ public interface OrderSettingDao {
     void updateByOrderDate(OrderSetting orderSetting);
 
     List<OrderSetting> getOrdersettingByMonth(Map<String,String> map);
+
 }
 
