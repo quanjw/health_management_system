@@ -4,8 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.quanjiawei.dao.OrderSettingDao;
 import com.quanjiawei.pojo.OrderSetting;
 import com.quanjiawei.service.OrderSettinglService;
-import com.quanjiawei.utils.DUtil;
-import org.junit.Test;
+import com.quanjiawei.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +32,7 @@ public class OrderSettinglServiceImpl implements OrderSettinglService {
     public List<Map> getOrdersettingByMonth(String date) {
         String begin = date+"-"+1;
         // String end = date+"-"+31; warring in mysql8 ,no result return
-        String end = DUtil.getLastDayOfMonth(date);
+        String end = DateUtils.getLastDayOfMonth(date);
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("begin",begin);
         map.put("end",end);

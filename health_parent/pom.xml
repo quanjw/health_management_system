@@ -13,6 +13,7 @@
         <module>health_service_provider</module>
         <module>health_backend</module>
         <module>health_jobs</module>
+        <module>health_mobile</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -36,6 +37,7 @@
         <jedis.version>2.9.0</jedis.version>
         <quartz.version>2.2.1</quartz.version>
         <spring-data-commons.version>2.7.0</spring-data-commons.version>
+        <dysmsapi20170525.version>2.0.16</dysmsapi20170525.version>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
@@ -239,6 +241,11 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons</artifactId>
                 <version>${spring-data-commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>dysmsapi20170525</artifactId>
+                <version>${dysmsapi20170525.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
