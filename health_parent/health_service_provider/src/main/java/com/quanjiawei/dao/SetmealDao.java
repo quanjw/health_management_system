@@ -33,6 +33,12 @@ public interface SetmealDao {
     List<Setmeal> queryAllByLimit(@Param("setmeal") Setmeal setmeal, @Param("pageable") Pageable pageable);
 
     /**
+     *
+     * @return 对象列表
+     */
+    List<Setmeal> queryAll();
+
+    /**
      * 统计总行数
      *
      * @param setmeal 查询条件

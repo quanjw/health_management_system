@@ -90,7 +90,7 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
     public List<Setmeal> findAll() {
-        return null;
+        return  this.setmealDao.queryAll();
     }
 
     private void setSetmealAndCheckGroupId(Integer[] checkGroupIds, Integer SetmealId) {
