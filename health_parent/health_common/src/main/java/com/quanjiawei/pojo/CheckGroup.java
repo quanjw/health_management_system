@@ -23,6 +23,8 @@ public class CheckGroup implements Serializable {
 
     private String attention;
 
+    private List<CheckItem> checkItems;
+
 
     public Integer getId() {
         return id;
@@ -78,6 +80,14 @@ public class CheckGroup implements Serializable {
 
     public void setAttention(String attention) {
         this.attention = attention;
+    }
+
+    public List<CheckItem> getCheckItems() {
+        return checkItems;
+    }
+
+    public void setCheckItems(List<CheckItem> checkItems) {
+        this.checkItems = checkItems;
     }
 
     @Override

@@ -14,9 +14,15 @@
         <result property="attention" column="attention" jdbcType="VARCHAR"/>
         <result property="img" column="img" jdbcType="VARCHAR"/>
     </resultMap>
+    
+    <resultMap id="queryByIdResultMap" type="com.quanjiawei.pojo.Setmeal" extends="SetmealMap">
+        <collection property="checkGroups" ofType="com.quanjiawei.pojo.CheckGroup"
+                    select="com.quanjiawei.dao.CheckGroupDao.findCheckGroupById" column="id">
+        </collection>
+    </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="SetmealMap">
+    <select id="queryById" resultMap="queryByIdResultMap">
         select
           id, name, code, helpCode, sex, age, price, remark, attention, img
         from t_setmeal

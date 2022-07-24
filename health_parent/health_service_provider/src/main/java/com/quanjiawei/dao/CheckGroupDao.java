@@ -88,5 +88,7 @@ public interface CheckGroupDao {
     List<CheckGroup> findAll();
 
     Integer[] findCheckGroupIdBySetmealId(Integer setmealId);
+
+    List<CheckGroup>  findCheckGroupById(Integer id);
 }
 

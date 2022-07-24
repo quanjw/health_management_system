@@ -12,6 +12,11 @@
         <result property="attention" column="attention" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="queryByIdResultMap" type="com.quanjiawei.pojo.CheckGroup" extends="CheckGroupMap">
+        <collection property="checkItems" ofType="com.quanjiawei.pojo.CheckItem"
+                    select="com.quanjiawei.dao.CheckItemDao.findCheckItemById" column="id">
+        </collection>
+    </resultMap>
     <!--查询单个-->
     <select id="queryById" resultMap="CheckGroupMap">
         select
@@ -168,6 +173,13 @@
 
     <select id="findCheckGroupIdBySetmealId" parameterType="Integer" resultType="Integer">
         select checkgroup_id  from t_setmeal_checkgroup where setmeal_id = #{setmealId}
+    </select>
+
+    <select id="findCheckGroupById" resultMap="queryByIdResultMap">
+        select *
+            from t_checkgroup where id in (
+                select checkgroup_id  from t_setmeal_checkgroup where setmeal_id = #{id}
+            )
     </select>
 
 </mapper>

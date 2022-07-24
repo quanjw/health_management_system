@@ -3,6 +3,8 @@ package com.quanjiawei.dao;
 import com.github.pagehelper.Page;
 import com.quanjiawei.pojo.CheckItem;
 
+import java.util.List;
+
 public interface CheckItemDao {
     public void add(CheckItem checkItem);
 
@@ -19,4 +21,6 @@ public interface CheckItemDao {
     public Page<CheckItem> findAll();
 
     public  Integer[] findCheckItemIdByCheckGroupId(Integer checkGroupId);
+
+    List<CheckItem> findCheckItemById(Integer id);
 }
