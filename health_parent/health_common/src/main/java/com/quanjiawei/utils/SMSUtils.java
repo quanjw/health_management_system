@@ -7,18 +7,30 @@ import com.aliyun.teaopenapi.*;
 import com.aliyun.teaopenapi.models.*;
 import com.aliyun.teautil.*;
 import com.aliyun.teautil.models.*;
+import com.quanjiawei.constant.DysmsConstant;
+import com.quanjiawei.constant.QiniuConstant;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * 短信发送工具类
  */
 public class SMSUtils {
 
-	public static final String ACCESSKEY_ID = "LTAIak3CfAehK7cE";
-	public static final String ACCESSKEY_SECRET = "zsykwhTIFa48f8fFdU06GOKjHWHel4";
-	public static final String SIGNNAME = "签名";
-	public static final String VALIDATE_CODE = "SMS_159620392";//发送短信验证码
-	public static final String ORDER_NOTICE = "SMS_159771588";//体检预约成功通知
+	private static String accesskeyId;
+	private static String accesskeySecret;
+	private static String signname;
+	private static String validateCode;
+	private static String orderNotice;
 
+	@Autowired
+	public void init( DysmsConstant dysmsConstant) {
+		SMSUtils.accesskeyId = dysmsConstant.getAccesskeyId();
+		SMSUtils.accesskeySecret = dysmsConstant.getAccesskeySecret();
+		SMSUtils.signname = dysmsConstant.getSignname();
+		SMSUtils.validateCode = dysmsConstant.getValidateCode();
+		SMSUtils.orderNotice = dysmsConstant.getOrderNotice();
+	}
 
 	/**
 	 * 使用AK&SK初始化账号Client
@@ -39,10 +51,10 @@ public class SMSUtils {
 	}
 
 	public static void sendShortMessage(String templateCode,String phoneNumbers,String param) throws Exception {
-		com.aliyun.dysmsapi20170525.Client client = SMSUtils.createClient(ACCESSKEY_ID, ACCESSKEY_SECRET);
+		com.aliyun.dysmsapi20170525.Client client = SMSUtils.createClient(accesskeyId, accesskeySecret);
 		SendSmsRequest sendSmsRequest = new SendSmsRequest()
 				.setPhoneNumbers(phoneNumbers)
-				.setSignName(SIGNNAME)
+				.setSignName(signname)
 				.setTemplateCode(templateCode)
 				.setTemplateParam(param);
 		RuntimeOptions runtime = new RuntimeOptions();
@@ -52,10 +64,12 @@ public class SMSUtils {
 		} catch (TeaException error) {
 			// 如有需要，请打印 error
 			com.aliyun.teautil.Common.assertAsString(error.message);
+			error.printStackTrace();
 		} catch (Exception _error) {
 			TeaException error = new TeaException(_error.getMessage(), _error);
 			// 如有需要，请打印 error
 			com.aliyun.teautil.Common.assertAsString(error.message);
+			error.printStackTrace();
 		}
 	}
 }
