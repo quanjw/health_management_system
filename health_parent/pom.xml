@@ -247,6 +247,11 @@
                 <artifactId>dysmsapi20170525</artifactId>
                 <version>${dysmsapi20170525.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.31</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>

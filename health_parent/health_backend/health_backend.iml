@@ -125,5 +125,6 @@
     <orderEntry type="library" name="Maven: com.aliyun:openapiutil:0.1.14" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.65" level="project" />
     <orderEntry type="library" name="Maven: org.bouncycastle:bcprov-jdk15on:1.65" level="project" />
+    <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.31" level="project" />
   </component>
 </module>
