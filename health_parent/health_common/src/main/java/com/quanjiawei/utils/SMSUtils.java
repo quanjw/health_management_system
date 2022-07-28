@@ -1,20 +1,17 @@
 package com.quanjiawei.utils;
 
 import com.aliyun.tea.*;
-import com.aliyun.dysmsapi20170525.*;
 import com.aliyun.dysmsapi20170525.models.*;
-import com.aliyun.teaopenapi.*;
 import com.aliyun.teaopenapi.models.*;
-import com.aliyun.teautil.*;
 import com.aliyun.teautil.models.*;
 import com.quanjiawei.constant.DysmsConstant;
-import com.quanjiawei.constant.QiniuConstant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * 短信发送工具类
  */
+@Component
 public class SMSUtils {
 
 	private static String accesskeyId;

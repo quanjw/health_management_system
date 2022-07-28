@@ -19,10 +19,6 @@ public class DysmsConstant {
     @Value("${dysms.orderNotice}")
     private  String orderNotice;
 
-
-    public DysmsConstant() {
-    }
-
     public String getAccesskeyId() {
         return accesskeyId;
     }

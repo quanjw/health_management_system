@@ -1,0 +1,9 @@
+qiniu.accessKey=***
+qiniu.secretKey=***
+qiniu.bucket=***
+
+dysms.accesskeyId=***
+dysms.accesskeySecret=***
+dysms.signname=***
+dysms.validateCode=***
+dysms.orderNotice=***

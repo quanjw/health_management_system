@@ -38,6 +38,8 @@
         <quartz.version>2.2.1</quartz.version>
         <spring-data-commons.version>2.7.0</spring-data-commons.version>
         <dysmsapi20170525.version>2.0.16</dysmsapi20170525.version>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
@@ -250,7 +252,7 @@
             <dependency>
                 <groupId>org.freemarker</groupId>
                 <artifactId>freemarker</artifactId>
-                <version>2.3.31</version>
+                <version>2.3.23</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -268,7 +270,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
+                <version>3.3</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>

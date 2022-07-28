@@ -5,16 +5,23 @@ import com.quanjiawei.constant.RedisConstant;
 import com.quanjiawei.dao.SetmealDao;
 import com.quanjiawei.entity.PageResult;
 import com.quanjiawei.entity.QueryPageBean;
-import com.quanjiawei.pojo.CheckGroup;
 import com.quanjiawei.pojo.Setmeal;
 import com.quanjiawei.service.SetmealService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (CheckGroup)表服务实现类
@@ -25,13 +32,18 @@ import java.util.List;
 
 @Service(interfaceClass = SetmealService.class)
 @Transactional
+@PropertySource("classpath:freemarker.properties")
 public class SetmealServiceImpl implements SetmealService {
-
-
 
     private SetmealDao setmealDao;
 
     private JedisPool jedisPool;
+
+    @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+
+    //@Value("${out_put_path}")
+    private String outputpath;
 
 
     @Autowired
@@ -43,6 +55,8 @@ public class SetmealServiceImpl implements SetmealService {
     public void setJedisPool(JedisPool jedisPool) {
         this.jedisPool = jedisPool;
     }
+
+
 
     public Setmeal queryById(Integer id) {
         return this.setmealDao.queryById(id);
@@ -65,6 +79,9 @@ public class SetmealServiceImpl implements SetmealService {
         setSetmealAndCheckGroupId(checkGroupIds, SetmealId);
 
         savePic2Redis(setmeal.getImg());
+
+        //TODO quanjw @Value("${out_put_path}")   Could not resolve placeholder 'out_put_path' in value "${out_put_path}"
+        //generateMobileStaticHtml();
         return  setmeal;
     }
 
@@ -104,4 +121,49 @@ public class SetmealServiceImpl implements SetmealService {
 
         }
     }
+
+    public void generateMobileStaticHtml() {
+        List<Setmeal> setmealList = this.findAll();
+        generateMobileSetmealListHtml(setmealList);
+        generateMobileSetmealDetailHtml(setmealList);
+    }
+
+    public void generateMobileSetmealListHtml(List<Setmeal> setmealList) {
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("setmealList", setmealList);
+        this.generateHtml("mobile_setmeal.ftl","m_setmeal.html",dataMap);
+    }
+
+    public void generateMobileSetmealDetailHtml(List<Setmeal> setmealList) {
+        for (Setmeal setmeal : setmealList) {
+            Map<String, Object> dataMap = new HashMap<String, Object>();
+            dataMap.put("setmeal", this.queryById(setmeal.getId()));
+            this.generateHtml("mobile_setmeal_detail.ftl",
+                    "setmeal_detail_"+setmeal.getId()+".html",
+                    dataMap);
+        }
+    }
+
+    public void generateHtml(String templateName,String htmlPageName,Map<String,Object> dataMap) {
+        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        Writer out = null;
+        try {
+            Template template = configuration.getTemplate(templateName);
+            File docFile = new File(outputpath + "\\" + htmlPageName);
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
+            template.process(dataMap, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != out) {
+                    out.flush();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
 }
+
+
