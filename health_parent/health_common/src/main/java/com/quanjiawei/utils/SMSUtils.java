@@ -20,6 +20,14 @@ public class SMSUtils {
 	private static String validateCode;
 	private static String orderNotice;
 
+	public static String getValidateCode() {
+		return validateCode;
+	}
+
+	public static String getOrderNotice() {
+		return orderNotice;
+	}
+
 	@Autowired
 	public void init( DysmsConstant dysmsConstant) {
 		SMSUtils.accesskeyId = dysmsConstant.getAccesskeyId();

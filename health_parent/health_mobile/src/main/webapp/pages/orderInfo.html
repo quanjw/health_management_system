@@ -113,12 +113,31 @@
                 methods:{
                     //发送验证码
                     sendValidateCode(){
+                        var telephone = this.orderInfo.telephone
+                        if (!checkTelephone(telephone)){
+                            this.$message.error("请输入正确的手机号");
+                            return false;
+                        }
+
+                        validateCodeButton = $('#validateCodeButton')[0];
+                        clock = window.setInterval(doLoop,1000)
+
+                        axios.post("/validateCode/send4Order.do?telphone=" + telphone).then((response) => {
+                            if(!response.data.flag){
+                                this.$message.error(response.data.message);
+                            }
+                        });
                     },
                     //提交预约
                     submitOrder(){
                     }
                 },
                 mounted(){
+                    axios.post("/setmeal/findById.do?id=" + id).then((response) => {
+                        if(response.data.flag){
+                            this.setmeal = response.data.data;
+                        }
+                    });
                 }
             });
         </script>
