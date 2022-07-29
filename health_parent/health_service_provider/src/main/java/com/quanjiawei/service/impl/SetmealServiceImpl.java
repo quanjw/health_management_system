@@ -12,16 +12,19 @@ import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * (CheckGroup)表服务实现类
@@ -32,18 +35,16 @@ import java.util.Map;
 
 @Service(interfaceClass = SetmealService.class)
 @Transactional
-@PropertySource("classpath:freemarker.properties")
 public class SetmealServiceImpl implements SetmealService {
 
     private SetmealDao setmealDao;
 
     private JedisPool jedisPool;
 
+    //TODO quanjw @Value("${out_put_path}")   Could not resolve placeholder 'out_put_path' in value "${out_put_path}"
+
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
-
-    //@Value("${out_put_path}")
-    private String outputpath;
 
 
     @Autowired
@@ -80,8 +81,7 @@ public class SetmealServiceImpl implements SetmealService {
 
         savePic2Redis(setmeal.getImg());
 
-        //TODO quanjw @Value("${out_put_path}")   Could not resolve placeholder 'out_put_path' in value "${out_put_path}"
-        //generateMobileStaticHtml();
+        generateMobileStaticHtml();
         return  setmeal;
     }
 
@@ -149,6 +149,10 @@ public class SetmealServiceImpl implements SetmealService {
         Writer out = null;
         try {
             Template template = configuration.getTemplate(templateName);
+
+            Properties props = PropertiesLoaderUtils.loadAllProperties("freemarker.properties");
+            String outputpath = props.getProperty("out_put_path");
+
             File docFile = new File(outputpath + "\\" + htmlPageName);
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
             template.process(dataMap, out);

@@ -32,5 +32,6 @@
     </bean>
 
     <context:property-placeholder location="classpath:freemarker.properties"/>
+
 </beans>
 
