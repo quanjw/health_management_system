@@ -2,7 +2,6 @@ package com.quanjiawei.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.quanjiawei.constant.MessageConstant;
-import com.quanjiawei.constant.RedisConstant;
 import com.quanjiawei.constant.RedisMessageConstant;
 import com.quanjiawei.entity.Result;
 import com.quanjiawei.utils.SMSUtils;
@@ -26,19 +25,19 @@ public class ValidateCodeController {
     }
 
     @RequestMapping("/send4Order")
-    public Result send4Order(String telphone){
+    public Result send4Order(String telephone){
 
         Integer validateCode = ValidateCodeUtils.generateValidateCode(6);
         HashMap<String, Integer> map = new HashMap<>();
         map.put("code",validateCode);
         String param = JSON.toJSONString(map);
         try {
-            SMSUtils.sendShortMessage(SMSUtils.getValidateCode(),telphone, param);
+            SMSUtils.sendShortMessage(SMSUtils.getValidateCode(),telephone, param);
         } catch (Exception e) {
             e.printStackTrace();
             return  new Result(false, MessageConstant.SEND_VALIDATECODE_FAIL);
         }
-        jedisPool.getResource().setex(telphone+ RedisMessageConstant.SENDTYPE_ORDER,300,validateCode.toString());
+        jedisPool.getResource().setex(telephone+ RedisMessageConstant.SENDTYPE_ORDER,300,validateCode.toString());
         return  new Result(true, MessageConstant.SEND_VALIDATECODE_SUCCESS);
     }
 

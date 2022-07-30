@@ -122,7 +122,7 @@
                         validateCodeButton = $('#validateCodeButton')[0];
                         clock = window.setInterval(doLoop,1000)
 
-                        axios.post("/validateCode/send4Order.do?telphone=" + telphone).then((response) => {
+                        axios.post("/validateCode/send4Order.do?telephone=" + telephone).then((response) => {
                             if(!response.data.flag){
                                 this.$message.error(response.data.message);
                             }
@@ -130,6 +130,18 @@
                     },
                     //提交预约
                     submitOrder(){
+                        var idCard = this.orderInfo.idCard;
+                        if (!checkIdCard(idCard)){
+                            this.$message.error("身份证输入错误，请重新输入");
+                            return false;
+                        }
+                        axios.post("/order/submit.do",this.orderInfo).then((response) => {
+                            if(response.data.flag){
+                                window.location.href = "orderSuccess.html?orderId="+response.data.data;
+                            }else {
+                                this.$message.error(response.data.message);
+                            }
+                        });
                     }
                 },
                 mounted(){
