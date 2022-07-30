@@ -65,7 +65,8 @@ public class SMSUtils {
 		RuntimeOptions runtime = new RuntimeOptions();
 		try {
 			// 复制代码运行请自行打印 API 的返回值
-			client.sendSmsWithOptions(sendSmsRequest, runtime);
+			//TODO Test send message always success
+			////client.sendSmsWithOptions(sendSmsRequest, runtime);
 		} catch (TeaException error) {
 			// 如有需要，请打印 error
 			com.aliyun.teautil.Common.assertAsString(error.message);
