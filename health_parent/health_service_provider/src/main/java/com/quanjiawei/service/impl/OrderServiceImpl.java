@@ -78,11 +78,25 @@ public class OrderServiceImpl implements OrderService {
 
             orderSetting.setReservations(orderSetting.getReservations()+1);
             orderSettingDao.update(orderSetting);
-            return  new Result(true, MessageConstant.ORDER_SUCCESS,order);
+            return  new Result(true, MessageConstant.ORDER_SUCCESS,order.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return  new Result(false, MessageConstant.ORDER_FAIL);
         }
 
+    }
+
+    @Override
+    public Map findById(Integer id) {
+        Map map = orderDao.findById4Detail(id);
+        if (map != null){
+            Date orderDate = (Date) map.get("orderDate");
+            try {
+                map.put("orderDate",DateUtils.parseDate2String(orderDate));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return  map;
     }
 }
