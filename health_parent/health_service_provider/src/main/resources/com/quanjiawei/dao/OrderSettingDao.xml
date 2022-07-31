@@ -141,5 +141,10 @@
         delete from t_ordersetting where id = #{id}
     </delete>
 
+    <!--根据日期查询预约设置信息-->
+    <select id="findByOrderDate" parameterType="date" resultType="com.quanjiawei.pojo.OrderSetting">
+        select * from t_ordersetting where orderDate = #{orderDate}
+    </select>
+
 </mapper>
 

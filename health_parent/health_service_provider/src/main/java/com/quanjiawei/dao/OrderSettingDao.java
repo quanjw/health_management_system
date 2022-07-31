@@ -3,6 +3,7 @@ package com.quanjiawei.dao;
 import com.quanjiawei.pojo.OrderSetting;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +85,9 @@ public interface OrderSettingDao {
     void updateByOrderDate(OrderSetting orderSetting);
 
     List<OrderSetting> getOrdersettingByMonth(Map<String,String> map);
+
+    //根据预约日期查询预约设置信息
+    public OrderSetting findByOrderDate(Date orderDate);
 
 }
 
