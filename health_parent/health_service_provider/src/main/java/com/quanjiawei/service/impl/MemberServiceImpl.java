@@ -11,6 +11,7 @@ import com.quanjiawei.pojo.Order;
 import com.quanjiawei.pojo.OrderSetting;
 import com.quanjiawei.service.MemberService;
 import com.quanjiawei.utils.DateUtils;
+import com.quanjiawei.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +35,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void add(Member member) {
+        String password = member.getPassword();
+        if (password != null){
+            member.setPassword(MD5Utils.md5(password));
+        }
         memberDao.add(member);
     }
 }

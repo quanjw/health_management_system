@@ -42,6 +42,9 @@ public class SetmealServiceImpl implements SetmealService {
     private JedisPool jedisPool;
 
     //TODO quanjw @Value("${out_put_path}")   Could not resolve placeholder 'out_put_path' in value "${out_put_path}"
+    //@Value("${out_put_path}")
+    //private String out_put_path;
+
 
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
@@ -154,6 +157,8 @@ public class SetmealServiceImpl implements SetmealService {
             String outputpath = props.getProperty("out_put_path");
 
             File docFile = new File(outputpath + "\\" + htmlPageName);
+            //File docFile = new File(out_put_path + "\\" + htmlPageName);
+
             out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
             template.process(dataMap, out);
         } catch (Exception e) {
